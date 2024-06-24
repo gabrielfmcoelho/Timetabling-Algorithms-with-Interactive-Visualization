@@ -1,0 +1,278 @@
+{
+    "timetable": {
+      "classes": [
+        {
+          "id": 1,
+          "name": "Apha",
+          "schedule": [
+            {
+              "day": "Segunda-Feira",
+              "periods": [
+                {
+                  "time": "8:00am - 9:00am",
+                  "subject": "Física",
+                  "teacher": "Prof. John Doe",
+                  "room": "Room 101"
+                },
+                {
+                  "time": "9:00am - 10:00am",
+                  "subject": "Matemática",
+                  "teacher": "Prof. Jane Smith",
+                  "room": "Room 102"
+                },
+                {
+                  "time": "10:00am - 11:00am",
+                  "subject": "Química",
+                  "teacher": "Prof. Michael Brown",
+                  "room": "Room 103"
+                },
+                {
+                  "time": "11:00am - 12:00pm",
+                  "subject": "Biologia",
+                  "teacher": "Prof. Sarah Lee",
+                  "room": "Room 104"
+                },
+                {
+                  "time": "1:00pm - 2:00pm",
+                  "subject": "História",
+                  "teacher": "Prof. David Johnson",
+                  "room": "Room 105"
+                },
+                {
+                  "time": "2:00pm - 3:00pm",
+                  "subject": "Geografia",
+                  "teacher": "Prof. Emily Wilson",
+                  "room": "Room 106"
+                },
+                {
+                  "time": "3:00pm - 4:00pm",
+                  "subject": "Inglês",
+                  "teacher": "Prof. James Anderson",
+                  "room": "Room 107"
+                },
+                {
+                  "time": "4:00pm - 5:00pm",
+                  "subject": "Português",
+                  "teacher": "Prof. Olivia Martinez",
+                  "room": "Room 108"
+                }
+              ]
+            },
+            {
+              "day": "Terça-Feira",
+              "periods": [
+                {
+                  "time": "8:00am - 9:00am",
+                  "subject": "Artes",
+                  "teacher": "Prof. Ethan Clark",
+                  "room": "Room 109"
+                },
+                {
+                  "time": "9:00am - 10:00am",
+                  "subject": "Educação Física",
+                  "teacher": "Prof. Ava Davis",
+                  "room": "Room 110"
+                },
+                {
+                  "time": "10:00am - 11:00am",
+                  "subject": "Filosofia",
+                  "teacher": "Prof. Lucas Garcia",
+                  "room": "Room 111"
+                },
+                {
+                  "time": "11:00am - 12:00pm",
+                  "subject": "Sociologia",
+                  "teacher": "Prof. Sophia Taylor",
+                  "room": "Room 112"
+                },
+                {
+                  "time": "1:00pm - 2:00pm",
+                  "subject": "Espanhol",
+                  "teacher": "Prof. Jackson Moore",
+                  "room": "Room 113"
+                },
+                {
+                  "time": "2:00pm - 3:00pm",
+                  "subject": "Literatura",
+                  "teacher": "Prof. Isabella Wilson",
+                  "room": "Room 114"
+                },
+                {
+                  "time": "3:00pm - 4:00pm",
+                  "subject": "Matemática Financeira",
+                  "teacher": "Prof. Liam Brown",
+                  "room": "Room 115"
+                },
+                {
+                  "time": "4:00pm - 5:00pm",
+                  "subject": "Programação",
+                  "teacher": "Prof. Mia Rodriguez",
+                  "room": "Room 116"
+                }
+              ]
+            },
+            {
+              "day": "Quarta-Feira",
+              "periods": [
+                {
+                  "time": "8:00am - 9:00am",
+                  "subject": "Economia",
+                  "teacher": "Prof. Noah Martinez",
+                  "room": "Room 117"
+                },
+                {
+                  "time": "9:00am - 10:00am",
+                  "subject": "Psicologia",
+                  "teacher": "Prof. Emma Thompson",
+                  "room": "Room 118"
+                },
+                {
+                  "time": "10:00am - 11:00am",
+                  "subject": "Ciências Sociais",
+                  "teacher": "Prof. Jacob Harris",
+                  "room": "Room 119"
+                },
+                {
+                  "time": "11:00am - 12:00pm",
+                  "subject": "Gestão Empresarial",
+                  "teacher": "Prof. Harper Walker",
+                  "room": "Room 120"
+                },
+                {
+                  "time": "1:00pm - 2:00pm",
+                  "subject": "Matemática",
+                  "teacher": "Prof. John Doe",
+                  "room": "Room 101"
+                },
+                {
+                  "time": "2:00pm - 3:00pm",
+                  "subject": "Física",
+                  "teacher": "Prof. Jane Smith",
+                  "room": "Room 102"
+                },
+                {
+                  "time": "3:00pm - 4:00pm",
+                  "subject": "Química",
+                  "teacher": "Prof. Michael Brown",
+                  "room": "Room 103"
+                },
+                {
+                  "time": "4:00pm - 5:00pm",
+                  "subject": "Biologia",
+                  "teacher": "Prof. Sarah Lee",
+                  "room": "Room 104"
+                }
+              ]
+            },
+            {
+              "day": "Quinta-Feira",
+              "periods": [
+                {
+                  "time": "8:00am - 9:00am",
+                  "subject": "História",
+                  "teacher": "Prof. David Johnson",
+                  "room": "Room 105"
+                },
+                {
+                  "time": "9:00am - 10:00am",
+                  "subject": "Geografia",
+                  "teacher": "Prof. Emily Wilson",
+                  "room": "Room 106"
+                },
+                {
+                  "time": "10:00am - 11:00am",
+                  "subject": "Inglês",
+                  "teacher": "Prof. James Anderson",
+                  "room": "Room 107"
+                },
+                {
+                  "time": "11:00am - 12:00pm",
+                  "subject": "Português",
+                  "teacher": "Prof. Olivia Martinez",
+                  "room": "Room 108"
+                },
+                {
+                  "time": "1:00pm - 2:00pm",
+                  "subject": "Artes",
+                  "teacher": "Prof. Ethan Clark",
+                  "room": "Room 109"
+                },
+                {
+                  "time": "2:00pm - 3:00pm",
+                  "subject": "Educação Física",
+                  "teacher": "Prof. Ava Davis",
+                  "room": "Room 110"
+                },
+                {
+                  "time": "3:00pm - 4:00pm",
+                  "subject": "Filosofia",
+                  "teacher": "Prof. Lucas Garcia",
+                  "room": "Room 111"
+                },
+                {
+                  "time": "4:00pm - 5:00pm",
+                  "subject": "Sociologia",
+                  "teacher": "Prof. Sophia Taylor",
+                  "room": "Room 112"
+                }
+              ]
+            },
+            {
+              "day": "Sexta-Feira",
+              "periods": [
+                {
+                  "time": "8:00am - 9:00am",
+                  "subject": "Espanhol",
+                  "teacher": "Prof. Jackson Moore",
+                  "room": "Room 113"
+                },
+                {
+                  "time": "9:00am - 10:00am",
+                  "subject": "Literatura",
+                  "teacher": "Prof. Isabella Wilson",
+                  "room": "Room 114"
+                },
+                {
+                  "time": "10:00am - 11:00am",
+                  "subject": "Matemática Financeira",
+                  "teacher": "Prof. Liam Brown",
+                  "room": "Room 115"
+                },
+                {
+                  "time": "11:00am - 12:00pm",
+                  "subject": "Programação",
+                  "teacher": "Prof. Mia Rodriguez",
+                  "room": "Room 116"
+                },
+                {
+                  "time": "1:00pm - 2:00pm",
+                  "subject": "Economia",
+                  "teacher": "Prof. Noah Martinez",
+                  "room": "Room 117"
+                },
+                {
+                  "time": "2:00pm - 3:00pm",
+                  "subject": "Psicologia",
+                  "teacher": "Prof. Emma Thompson",
+                  "room": "Room 118"
+                },
+                {
+                  "time": "3:00pm - 4:00pm",
+                  "subject": "Ciências Sociais",
+                  "teacher": "Prof. Jacob Harris",
+                  "room": "Room 119"
+                },
+                {
+                  "time": "4:00pm - 5:00pm",
+                  "subject": "Gestão Empresarial",
+                  "teacher": "Prof. Harper Walker",
+                  "room": "Room 120"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+}
+  
