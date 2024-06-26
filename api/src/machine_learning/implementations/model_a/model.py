@@ -1,4 +1,4 @@
-from src.machine_learning.model import Model
+from src.machine_learning.model_definition import Model
 
 
 class ModelA(Model):

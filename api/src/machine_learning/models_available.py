@@ -1,4 +1,4 @@
-from src.machine_learning.model import ModelCredentials, ModelDefinition
+from src.machine_learning.model_definition import ModelCredentials, ModelDefinition
 from src.machine_learning.implementations.model_a.model import ModelA
 
 
