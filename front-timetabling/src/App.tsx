@@ -1,42 +1,43 @@
-import { Calendar, Play } from "lucide-react";
-import { Card, CardContent, CardHeader } from "./components/ui/card";
-import { Button } from "./components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "./components/ui/tabs"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./components/ui/select";
-import { Table, TableHeader, TableRow, TableHead, TableCell, TableBody } from "./components/ui/table";
+import { 
+  Card, 
+  CardContent, 
+  CardHeader 
+} from "./components/ui/card";
+
+import { Header } from "./components/header";
+
+import { 
+  Tabs, 
+  TabsList, 
+  TabsTrigger 
+} from "./components/ui/tabs";
+
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from "./components/ui/select";
+
+import { 
+  Table, 
+  TableHeader, 
+  TableRow, 
+  TableHead, 
+  TableCell, 
+  TableBody 
+} from "./components/ui/table";
+
+import { Input } from "./components/input";
 
 export function App() {
   return (
     <main className="flex flex-col items-center gap-10">
-      <Card className="w-screen">
-        <CardHeader className="flex flex-row items-center justify-between">
-          <h1 className="font-bold text-xl flex items-center gap-2">
-            <Calendar size={20} strokeWidth={2.85} />
-            TimeTabling
-          </h1>
-          <div className="flex items-center gap-2">
-            <Select>
-              <SelectTrigger className="w-[200px]">
-                <SelectValue placeholder="Selecione o modelo" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="genetic-algorithms" className="cursor-pointer">
-                  Algoritmo Genético 
-                </SelectItem>
-                <SelectItem value="neural-networks" className="cursor-pointer">
-                  Rede Neural
-                </SelectItem>
-              </SelectContent>
-            </Select>
-            <Button className="flex items-center gap-2">
-              <Play size={20} />
-              Run
-            </Button>
-          </div>
-        </CardHeader>
-      </Card>
+      <Header />
       <Card className="w-[1000px]">
         <CardHeader className="flex flex-row items-center justify-between">
+          <Input />
           <Tabs defaultValue="segunda">
             <TabsList>
               <TabsTrigger value="segunda">Segunda</TabsTrigger>
