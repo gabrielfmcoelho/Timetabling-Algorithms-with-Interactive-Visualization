@@ -9,6 +9,11 @@ import {
     DialogTrigger,
 } from "./ui/dialog"
 
+import { JsonEditor } from 'json-edit-react'
+
+import jsonData from '../../../local-search-algorithm/data/inputs/input1.json'
+import { ScrollArea } from "./ui/scroll-area"
+
 export function Input() {
     return (
         <Dialog>
@@ -29,7 +34,12 @@ export function Input() {
                   Adicione ou altere os dados de entrada para a execuçãos dos algoritmos de timetabling
                 </DialogDescription>
               </DialogHeader>
-              JSON
+              <ScrollArea className="h-[400px] w-full">
+                <JsonEditor
+                  data={jsonData}
+                  collapse={false}
+                />
+              </ScrollArea>
             </DialogContent>
           </Dialog>
     )
