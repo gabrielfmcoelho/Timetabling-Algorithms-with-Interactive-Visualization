@@ -8,23 +8,23 @@
     ],
 
     "rooms": [
-        { "id": 1, "name": "Room 101", "capacity": 60, "time_available": [1, 2, 3, 4, 5] },
-        { "id": 2, "name": "Room 102", "capacity": 30, "time_available": [1, 2, 4, 5] },
-        { "id": 3, "name": "Room 103", "capacity": 40, "time_available": [1, 2, 3, 5] },
-        { "id": 4, "name": "Room 104", "capacity": 50, "time_available": [2, 3, 4] },
-        { "id": 5, "name": "Room 105", "capacity": 45, "time_available": [1, 3, 4, 5] }
+        { "id": 1, "name": "Room 101", "capacity": 60, "days": [1], "times": [1, 2, 3, 4, 5] },
+        { "id": 2, "name": "Room 102", "capacity": 30, "days": [1, 2], "times": [1, 2, 3, 4, 5] },
+        { "id": 3, "name": "Room 103", "capacity": 40, "days": [1, 3], "times": [1, 2, 3, 4, 5] },
+        { "id": 4, "name": "Room 104", "capacity": 50, "days": [1, 5], "times": [1, 2, 3, 4, 5] },
+        { "id": 5, "name": "Room 105", "capacity": 45, "days": [1, 6], "times": [1, 2, 3, 4, 5] }
     ],
 
     "subjects": [
         { "id": 1, "name": "Mzatemática", "hours": 60 },
-        { "id": 2, "name": "Física", "hours": 50 },
+        { "id": 2, "name": "Física", "hou rs": 50 },
         { "id": 3, "name": "Química", "hours": 45 },
         { "id": 4, "name": "Biologia", "hours": 40 },
         { "id": 5, "name": "História", "hours": 35 }
     ],
 
     "teachers": [
-        { "id": 1, "name": "Prof. John Doe", "days": [1, 3, 4, 5], "times": [1], "subjects": [1, 3, 4] },
+        { "id": 1, "name": "Prof. John Doe", "days": [1, 3, 4, 5], "times": [1, 2], "subjects": [1, 3, 4] },
         { "id": 2, "name": "Prof. Jane Smith", "days": [1, 2, 4, 5], "times": [2], "subjects": [2, 3] },
         { "id": 3, "name": "Prof. Michael Brown", "days": [1, 2, 3, 5], "times": [3], "subjects": [5] },
         { "id": 4, "name": "Prof. Sarah Lee", "days": [2, 3, 4, 5], "times": [4], "subjects": [1,4] },
