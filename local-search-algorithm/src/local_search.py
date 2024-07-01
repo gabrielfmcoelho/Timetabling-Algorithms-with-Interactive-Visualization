@@ -2,10 +2,12 @@ import random
 from copy import deepcopy
 from typing import List, Dict
 
-from generate_initial_solution import generate_initial_solution
 from evaluate_solution import evaluate_solution
+from generate_initial_solution import generate_initial_solution
 
-""" Algoritmo de busca local para timetabling """
+from copy import deepcopy
+from typing import List, Dict
+import random
 
 def local_search(
     classes: List[Dict], 
@@ -13,10 +15,14 @@ def local_search(
     rooms: List[Dict], 
     times: List[Dict], 
     subjects: List[Dict], 
+    days: List[Dict], 
     max_iterations: int = 1000
 ) -> List[Dict]:
 
-    best_solution = generate_initial_solution(classes, teachers, rooms, times, subjects)
+    def get_available_rooms(day_id: int, time_id: int) -> List[Dict]:
+        return [room for room in rooms if day_id in room['days'] and time_id in room['times']]
+
+    best_solution = generate_initial_solution(classes, teachers, rooms, times, subjects, days)
     best_score = evaluate_solution(best_solution)
 
     for _ in range(max_iterations):
@@ -25,19 +31,14 @@ def local_search(
         # Perturbação: Troca aleatória de alguns horários
         for class_info in candidate_solution:
             for day_schedule in class_info['schedule']:
-                random_time_index = random.randint(0, len(times) - 1)
-                random_teacher = random.choice(teachers)
-                random_room = random.choice(rooms)
-                subject = random.choice(random_teacher['subjects'])
-                teacher_name = random_teacher['name']
-                room_name = random_room['name']
-                day_schedule['periods'][random_time_index] = {
-                    "day": day_schedule['day'],
-                    "times": f"{times[random_time_index]['start']} - {times[random_time_index]['end']}",
-                    "subject": next((sub['name'] for sub in subjects if sub['id'] == subject), None),
-                    "teacher": teacher_name,
-                    "room": room_name
-                }
+                day_id = next(day['id'] for day in days if day['name'] == day_schedule['day'])
+                for idx, period in enumerate(day_schedule['periods']):
+                    available_rooms = get_available_rooms(day_id, idx + 1)
+                    if available_rooms:
+                        random_room = random.choice(available_rooms)
+                        period['room'] = random_room['name']
+                    else:
+                        period['room'] = "No room available"
 
         candidate_score = evaluate_solution(candidate_solution)  
 
