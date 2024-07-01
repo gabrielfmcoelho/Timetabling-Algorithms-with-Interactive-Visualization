@@ -57,11 +57,13 @@ class Classroom:
     name: str
     time_available: Dict[str, List[int]]
     capacity: int
+    
     def __init__(self, classroom_name: str, classroom_data: dict) -> None:
         self.id = classroom_data["id"]
         self.name = classroom_name
         self.time_available = classroom_data["time_available"]
-
+        self.capacity = classroom_data["capacity"]
+        
     @property
     def availability(self) -> List[Set[str]]:
         availability = []
@@ -77,13 +79,16 @@ class Gene:
     subject: Subject
     day: str
     time: int
+    classroom: Classroom
+    classgroup: ClassGroup
 
-    def __init__(self, professor: Professor, subject: Subject, day: str, time: int) -> None:
+    def __init__(self, professor: Professor, subject: Subject, day: str, time: int, classroom: Classroom, classgroup: ClassGroup) -> None:
         self.professor = professor
         self.subject = subject
         self.day = day
         self.time = time
-
+        self.classroom = classroom
+        self.classgroup = classgroup
 
 @dataclass
 class Chromosome:
@@ -134,7 +139,7 @@ class MetricsEvaluator:
         
 
 class GeneticAlgorithm:
-    def __init__(self, population_size: int, mutation_rate: float, crossover_rate: float, generations: int, fitness_threshold: float, subjects: Dict[str, Subject], professors: Dict[str, Professor], classrooms: Dict[str, Classroom]) -> None:
+    def __init__(self, population_size: int, mutation_rate: float, crossover_rate: float, generations: int, fitness_threshold: float, subjects: Dict[str, Subject], professors: Dict[str, Professor], classrooms: Dict[str, Classroom], classgroups: Dict[str, ClassGroup]) -> None:
         self.population_size = population_size
         self.mutation_rate = mutation_rate
         self.crossover_rate = crossover_rate
@@ -143,6 +148,7 @@ class GeneticAlgorithm:
         self.subjects = subjects
         self.professors = professors
         self.classrooms = classrooms
+        self.classgroups = classgroups
 
     def generate_initial_population(self) -> Population:
         print(f"Creating population with {self.population_size} chromosomes, {len(self.subjects)} subjects, {len(self.professors)} professors and {len(self.classrooms)} classrooms")
@@ -153,9 +159,12 @@ class GeneticAlgorithm:
                 for professor in subject_data.professors:
                     for _ in range((subject_data.course_load // 36)):
                         for classroom, classroom_data in self.classrooms.items():
-                            day, time = random.choice(list(set(self.professors[professor].availability) & set(classroom_data.availability)))
-                            gene = Gene(self.professors[professor], subject_data, day, time)
-                            chromosome.add_gene(gene)
+                            if classgroup_data.students <= classroom_data.capacity:
+                                available_times = list(set(self.professors[professor_name].availability) & set(classroom_data.availability))
+                                if available_times:
+                                    day, time = random.choice(available_times)
+                                    gene = Gene(self.professors[professor_name], subject_data, day, time, self.classrooms[classroom_name], self.classgroups[classgroup_name])
+                                    chromosome.add_gene(gene)
             population.add_chromosome(chromosome)
         return population
     
@@ -175,13 +184,22 @@ class GeneticAlgorithm:
                 room_usage[(gene.subject.name, gene.day, gene.time)] += 1
             else:
                 room_usage[(gene.subject.name, gene.day, gene.time)] = 1
+            # Verificar se a quantidade de alunos excede a capacidade da sala
+            if (gene.classroom.name, gene.day, gene.time) in room_usage:
+                room_usage[(gene.classroom.name, gene.day, gene.time)] += gene.classgroup.students
+            else:
+                room_usage[(gene.classroom.name, gene.day, gene.time)] = gene.classgroup.students
+    
         for count in timeslot_count.values():
             if count > 1:
                 conflicts += (count - 1)
         for count in room_usage.values():
             if count > 1:
                 conflicts += (count - 1)
-        # CHECAR QUANTIDADE DE ALUNOS
+        for room, usage in room_usage.items():
+            if usage > gene.classroom.capacity:
+                conflicts += (usage - gene.classroom.capacity)
+
         # Reduzir a fitness por conflito
         fitness -= conflicts * 0.1
         if fitness < 0:
@@ -218,9 +236,12 @@ class GeneticAlgorithm:
             for gene in chromosome.genes:
                 if random.random() < self.mutation_rate:
                     available_times = list(set(self.professors[gene.professor.name].time_available) & set(self.classrooms))
-                    day, time = random.choice(available_times)
-                    gene.day = day
-                    gene.time = time
+                    if available_times:
+                        day, time = random.choice(available_times)
+                        room_usage = sum([g.classgroup.students for g in chromosome.genes if g.classroom == gene.classroom and g.day == day and g.time == time])
+                        if room_usage + gene.classgroup.students <= gene.classroom.capacity:
+                            gene.day = day
+                            gene.time = time 
         return mating_pool
     
     def replace_population(self, population: Population, mating_pool: List[Chromosome]) -> List[Chromosome]:
