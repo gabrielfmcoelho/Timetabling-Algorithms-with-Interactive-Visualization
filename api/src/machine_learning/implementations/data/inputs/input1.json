@@ -8,15 +8,15 @@
     ],
 
     "rooms": [
-        { "id": 1, "name": "Room 101", "capacity": 60 },
-        { "id": 2, "name": "Room 102", "capacity": 30 },
-        { "id": 3, "name": "Room 103", "capacity": 40 },
-        { "id": 4, "name": "Room 104", "capacity": 50 },
-        { "id": 5, "name": "Room 105", "capacity": 45 }
+        { "id": 1, "name": "Room 101", "capacity": 60, "time_available": [1, 2, 3, 4, 5] },
+        { "id": 2, "name": "Room 102", "capacity": 30, "time_available": [1, 2, 4, 5] },
+        { "id": 3, "name": "Room 103", "capacity": 40, "time_available": [1, 2, 3, 5] },
+        { "id": 4, "name": "Room 104", "capacity": 50, "time_available": [2, 3, 4] },
+        { "id": 5, "name": "Room 105", "capacity": 45, "time_available": [1, 3, 4, 5] }
     ],
 
     "subjects": [
-        { "id": 1, "name": "Matemática", "hours": 60 },
+        { "id": 1, "name": "Mzatemática", "hours": 60 },
         { "id": 2, "name": "Física", "hours": 50 },
         { "id": 3, "name": "Química", "hours": 45 },
         { "id": 4, "name": "Biologia", "hours": 40 },
@@ -37,13 +37,5 @@
         { "id": 3, "start": "10:00am", "end": "11:00am" },
         { "id": 4, "start": "11:00am", "end": "12:00pm" },
         { "id": 5, "start": "1:00pm", "end": "2:00pm" }
-    ],
-
-    "days": [
-        { "id": 1, "day": "Segunda-Feira", "times": [1, 2, 3, 4, 5, 6, 7, 8] },
-        { "id": 2, "day": "Terça-Feira", "times": [1, 2, 3, 4, 5, 6, 7, 8] },
-        { "id": 3, "day": "Quarta-Feira", "times": [1, 2, 3, 4, 5, 6, 7, 8] },
-        { "id": 4, "day": "Quinta-Feira", "times": [1, 2, 3, 4, 5, 6, 7, 8] },
-        { "id": 5, "day": "Sexta-Feira", "times": [1, 2, 3, 4, 5, 6, 7, 8] }
     ]
 }
