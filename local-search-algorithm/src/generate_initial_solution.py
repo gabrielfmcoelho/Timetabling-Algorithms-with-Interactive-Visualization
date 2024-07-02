@@ -21,12 +21,14 @@ def generate_initial_solution(
             for time in times:
                 time_info = f"{time['start']} - {time['end']}"
                 available_rooms = [room for room in rooms if day['id'] in room['days'] and time['id'] in room['times']]
-                random_room = random.choice(available_rooms) if available_rooms else None
+
+                suitable_rooms = [room for room in available_rooms if room['capacity'] >= class_info['studentsAmount']]
+                random_room = random.choice(suitable_rooms) if suitable_rooms else None
 
                 if random_room:
                     room_name = random_room['name']
                 else:
-                    room_name = "No room available"
+                    room_name = "No suitable room available"
 
                 random_teacher = random.choice(teachers)
                 subject = random.choice(random_teacher['subjects'])

@@ -9,6 +9,8 @@ from copy import deepcopy
 from typing import List, Dict
 import random
 
+from MetricsEvaluator import metrics_evaluator
+
 def local_search(
     classes: List[Dict], 
     teachers: List[Dict], 
@@ -26,6 +28,7 @@ def local_search(
     best_score = evaluate_solution(best_solution)
 
     for _ in range(max_iterations):
+        metrics_evaluator.start_iteration_timer()
         candidate_solution = deepcopy(best_solution)
 
         # Perturbação: Troca aleatória de alguns horários
@@ -46,4 +49,10 @@ def local_search(
             best_solution = deepcopy(candidate_solution)
             best_score = candidate_score
 
-    return best_solution
+            metrics_evaluator.update_metrics(best_solution, best_score)
+            metrics_evaluator.stop_iteration_timer()
+
+        metrics_evaluator.update_best_metric(candidate_solution, candidate_score)
+        metrics_evaluator.stop_timer()
+
+    return best_solution, metrics_evaluator
