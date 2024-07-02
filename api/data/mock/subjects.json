@@ -1,22 +1,22 @@
 {
-    "Redes": {
-        "id": 1,
-        "professors": ["Neto"],
+    "1": {
+        "name": "Redes de Computadores",
+        "professors": [1],
         "course_load": 72
     },
-    "Logica": {
-        "id": 2,
-        "professors": ["Chiquinho"],
+    "2": {
+        "name": "Logica de Programacao",
+        "professors": [2, 4],
         "course_load": 36
     },
-    "Matematica": {
-        "id": 3,
-        "professors": ["Maria"],
+    "3": {
+        "name": "Matematica Discreta",
+        "professors": [3, 4],
         "course_load": 36
     },
-    "Fisica": {
-        "id": 4,
-        "professors": ["Joao"],
+    "4": {
+        "name": "Estrutura de Dados",
+        "professors": [4, 1],
         "course_load": 72
     }
 }
