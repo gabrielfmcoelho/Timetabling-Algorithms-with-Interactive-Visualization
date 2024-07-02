@@ -12,3 +12,6 @@ npm run dev
 cd local-search-algorithm/src 
 python3 main.py 
 ```
+
+## Funcionamento Básico do Algoritmo
+![diagram](./local-search-algorithm/docs/diagram.jpeg)
