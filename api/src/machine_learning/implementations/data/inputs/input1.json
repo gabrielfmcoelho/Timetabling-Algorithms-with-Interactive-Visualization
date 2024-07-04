@@ -16,7 +16,7 @@
     ],
 
     "subjects": [
-        { "id": 1, "name": "Matemática", "hours": 60 },
+        { "id": 1, "name": "Mzatemática", "hours": 60 },
         { "id": 2, "name": "Física", "hours": 50 },
         { "id": 3, "name": "Química", "hours": 45 },
         { "id": 4, "name": "Biologia", "hours": 40 },

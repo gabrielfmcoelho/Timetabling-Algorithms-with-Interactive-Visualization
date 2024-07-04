@@ -1,0 +1,22 @@
+{
+    "Alpha": {
+        "id": 1,
+        "studentsAmount": 20
+    },
+    "Zeta": {
+        "id": 2,
+        "studentsAmount": 18
+    },
+    "Shaw": {
+        "id": 3,
+        "studentsAmount": 22
+    },
+    "Kira": {
+        "id": 4,
+        "studentsAmount": 25
+    },
+    "Vex": {
+        "id": 5,
+        "studentsAmount": 19
+    }
+}
