@@ -1,10 +1,16 @@
-from src.machine_learning.model_definition import ModelCredentials, ModelDefinition
-from src.machine_learning.implementations.model_a.model import ModelA
+from machine_learning.model_definition import ModelCredentials, ModelDefinition
+from machine_learning.implementations.model_a.model import ModelA
 
 
 # Models in stable version
-model_a_definition = ModelDefinition(
-    uid="local_search",
+LOCAL_SEARCH_ALGORITHM_DEFINITION = ModelDefinition(
+    uid="local-search-algorithm",
+    model=ModelA(),
+    credentials_params=ModelCredentials()
+)
+
+GENETIC_ALGORITHM_DEFINITION = ModelDefinition(
+    uid="genetic-algorithm",
     model=ModelA(),
     credentials_params=ModelCredentials()
 )
@@ -12,6 +18,7 @@ model_a_definition = ModelDefinition(
 # Dictionary of models available
 MODELS_AVAILABLE = {
     "timetabling": {
-        model_a_definition.uid: model_a_definition
+        LOCAL_SEARCH_ALGORITHM_DEFINITION.uid: LOCAL_SEARCH_ALGORITHM_DEFINITION,
+        GENETIC_ALGORITHM_DEFINITION.uid: GENETIC_ALGORITHM_DEFINITION
     }
 }

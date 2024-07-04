@@ -1,31 +1,33 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.config.app_config import APP_CONFIGS, CORS_CONFIGS
+from dataclasses import asdict
+from icecream import ic
 
-from src.routes.ai import router as service_router
-from src.logging.logger import Logger
+import os
+
+from config.configs import APP_CONFIGS, CORS_CONFIGS
+from logs.logger import Logger
 
 
-app_logger = Logger(log_dir="src/logging/logs").get_logger()
+logger = Logger(log_dir="logs/history").get_logger()
 
-app = FastAPI(**APP_CONFIGS)
+app = FastAPI(**asdict(APP_CONFIGS))
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=CORS_CONFIGS["allow_origins"],
-    allow_credentials=CORS_CONFIGS["allow_credentials"],
-    allow_methods=CORS_CONFIGS["allow_methods"],
-    allow_headers=CORS_CONFIGS["allow_headers"],
+    **asdict(CORS_CONFIGS)
 )
 
 
 @app.get('/')
 async def root():
-    return {'message': f'Welcome to the {APP_CONFIGS["title"]}'}
+    return {'message': f'Welcome to the {APP_CONFIGS.title} API, check the documentation at {APP_CONFIGS.docs_url} or {APP_CONFIGS.redoc_url} endpoints.'}
 
 @app.post('/ping')
 async def ping():
     return {'message': 'pong'}
 
 
-app.include_router(service_router)
+from routes.ai import router as ai_router
+
+app.include_router(ai_router)

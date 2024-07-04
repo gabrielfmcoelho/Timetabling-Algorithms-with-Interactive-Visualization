@@ -1,5 +1,5 @@
-from src.machine_learning.model_definition import Model
-from src.machine_learning.models_available import MODELS_AVAILABLE
+from machine_learning.model_definition import Model
+from machine_learning.models_available import MODELS_AVAILABLE
 
 
 class ModelsInterface:
