@@ -1,0 +1,22 @@
+{
+    "Redes": {
+        "id": 1,
+        "professors": ["Neto"],
+        "course_load": 72
+    },
+    "Logica": {
+        "id": 2,
+        "professors": ["Chiquinho"],
+        "course_load": 36
+    },
+    "Matematica": {
+        "id": 3,
+        "professors": ["Maria"],
+        "course_load": 36
+    },
+    "Fisica": {
+        "id": 4,
+        "professors": ["Joao"],
+        "course_load": 72
+    }
+}

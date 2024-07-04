@@ -1,0 +1,35 @@
+{
+    "Sala 101": {
+        "id": 1,
+        "time_available": {
+            "Segunda": [18, 19, 20, 21],
+            "Terça": [18, 19, 20, 21],
+            "Quarta": [18, 19, 20, 21],
+            "Quinta": [18, 19, 20, 21],
+            "Sexta": [18, 19, 20, 21]
+        },
+        "capacity": 60
+    },
+    "Sala 102": {
+        "id": 2,
+        "time_available": {
+            "Segunda": [18, 19, 20, 21],
+            "Terça": [18, 19, 20],
+            "Quarta": [19, 20, 21],
+            "Quinta": [18, 19, 20, 21],
+            "Sexta": [19, 20, 21]
+        },
+        "capacity": 30
+    },
+    "Sala 103": {
+        "id": 3,
+        "time_available": {
+            "Segunda": [18, 19, 20, 21],
+            "Terça": [18, 19, 20, 21],
+            "Quarta": [18, 19, 20, 21],
+            "Quinta": [18, 19, 20, 21],
+            "Sexta": [18, 19, 20, 21]
+        },
+        "capacity": 40
+    }
+}

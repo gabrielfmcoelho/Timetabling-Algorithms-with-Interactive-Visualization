@@ -1,17 +1,15 @@
 # Timetabling Implementation
+## Frontend + API + Models to solve timetabling problems
 
-## Rodar Front-End
+## Run Front-End (Deprecated)
 ```
 cd front-timetabling
 npm install
 npm run dev
 ```
 
-## Rodar Algoritmo de Busca Local
+## Run local search algorithm (Deprecated)
 ```
 cd local-search-algorithm/src 
 python3 main.py 
 ```
-
-## Funcionamento Básico do Algoritmo
-![diagram](./local-search-algorithm/docs/diagram.jpeg)
