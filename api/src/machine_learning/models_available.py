@@ -15,6 +15,7 @@ GENETIC_ALGORITHM_DEFINITION = ModelDefinition(
     credentials_params=ModelCredentials()
 )
 
+
 # Dictionary of models available
 MODELS_AVAILABLE = {
     "timetabling": {
