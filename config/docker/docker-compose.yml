@@ -1,0 +1,27 @@
+services:
+  api:
+    build: 
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: timetabling-interactive-visualization-api-c
+    volumes:
+      - ./api/src/logs/history:/app/logs/history
+    networks:
+      - timetabling-interactive-visualization-network
+    ports:
+      - "8083:8083"
+  
+  frontend:
+    build: 
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: timetabling-interactive-visualization-frontend-c
+    networks:
+      - timetabling-interactive-visualization-network
+    ports:
+      - "3000:3000"
+
+networks:
+  timetabling-interactive-visualization-network:
+    name: timetabling-interactive-visualization-network
+    driver: bridge

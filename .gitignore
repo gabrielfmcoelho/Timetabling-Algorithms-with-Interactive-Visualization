@@ -7,6 +7,11 @@ Dockerfile.frontend
 Dockerfile.api
 .env
 
+!config/docker/**env
+!config/docker/**yml
+!config/docker/**api
+!config/docker/**frontend
+
 ### VS Code ###
 .vscode
 
@@ -245,7 +250,6 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
 .venv
 env/
 venv/
