@@ -8,31 +8,11 @@ from machine_learning.models_evaluator import MetricsEvaluator
 from machine_learning.model_definition import Model
 
 
-class GeneticAlgorithm(Model):
-    def parameters_parser(self, data: dict, parameters: dict):
-        population_size = parameters.get("population_size")
-        mutation_rate = parameters.get("mutation_rate")
-        crossover_rate = parameters.get("crossover_rate")
-        generations = parameters.get("generations")
-        fitness_threshold = parameters.get("fitness_threshold")
-        course_load_one_class_threshold = parameters.get("course_load_one_class_threshold")
-        if not population_size or not mutation_rate or not crossover_rate or not generations or not fitness_threshold or not course_load_one_class_threshold:
-            raise Exception("Missing parameters")
-        
-        class_groups = [ClassGroup(class_group) for class_group in data.get("class_groups", [])]
-        classrooms = [Classroom(classroom) for classroom in data.get("classrooms", [])]
-        subjects = [Subject(subject) for subject in data.get("subjects", [])]
-        professors = [Professor(professor) for professor in data.get("professors", [])]
-        if not class_groups or not classrooms or not subjects or not professors:
-            raise Exception("Missing data")
-        
-        return population_size, mutation_rate, crossover_rate, generations, fitness_threshold, course_load_one_class_threshold, class_groups, classrooms, subjects, professors
-
-    def setup(self, data: dict, parameters: dict):
-        population_size, mutation_rate, crossover_rate, generations, fitness_threshold, course_load_one_class_threshold, class_groups, classrooms, subjects, professors = self.parameters_parser(data, parameters)
-        self.metrics_evaluator = MetricsEvaluator("Genetic Algorithm", "elite_fitness")
+class GeneticAlgorithm:
+    def __init__(self, population_size: int, mutation_rate: float, crossover_rate: float, generations: int, fitness_threshold: float, course_load_one_class_threshold: int, class_groups: List[ClassGroup], classrooms: List[Classroom], subjects: List[Subject], professors: List[Professor]):
+        self.metrics_evaluator = MetricsEvaluator("Genetic Algorithm", "conflicts")
         population = Population()
-        population.generate_population_from_data(population_size, class_groups, classrooms, subjects, professors, course_load_one_class_threshold)
+        population.generate_population_from_data_safe_solution(population_size, class_groups, classrooms, subjects, professors)
         self.population = population
         self.mutation_rate = mutation_rate
         self.crossover_rate = crossover_rate
@@ -49,11 +29,20 @@ class GeneticAlgorithm(Model):
         """
         Select the best individuals of the population to the matching pool
         """
-        population.order_population_by_fitness()
         matching_pool: Population = Population()
-        for i in range(len(population.chromosomes)):
-            if random.random() < (i / len(population.chromosomes)):
-                matching_pool.add_chromosome(population.chromosomes[i])
+
+        population.order_population_by_fitness(reverse=True)
+        sum_of_total_fitness = population.sum_of_total_fitness
+        if sum_of_total_fitness == 0:
+            for chromosome in population.chromosomes:
+                matching_pool.add_chromosome(chromosome)
+            return matching_pool
+        
+        for chromosome in population.chromosomes:
+            probability = chromosome.elite_fitness / sum_of_total_fitness
+            if random.random() < probability:
+                matching_pool.add_chromosome(chromosome)
+
         return matching_pool
     
     @staticmethod
@@ -62,43 +51,61 @@ class GeneticAlgorithm(Model):
         Create a new population with the crossover of the matching pool chromosomes
         """
         new_population: Population = Population()
-        for _ in range(len(matching_pool.chromosomes) // 2):
-            chromosome_parent_1 = random.choice(matching_pool.chromosomes)
-            chromosome_parent_2 = random.choice(matching_pool.chromosomes)
+
+        for _ in range((len(matching_pool.chromosomes) // 2)):
             if random.random() < crossover_rate:
-                crossover_point = random.randint(1, len(chromosome_parent_1.genes) - 1)
-                chromosome_child_1 = Chromosome()
-                chromosome_child_2 = Chromosome()
-                chromosome_child_1.genes = chromosome_parent_1.genes[:crossover_point] + chromosome_parent_2.genes[crossover_point:]
-                chromosome_child_2.genes = chromosome_parent_2.genes[:crossover_point] + chromosome_parent_1.genes[crossover_point:]
-                new_population.add_chromosome(chromosome_child_1)
-                new_population.add_chromosome(chromosome_child_2)
-            else:
-                new_population.add_chromosome(chromosome_parent_1)
-                new_population.add_chromosome(chromosome_parent_2)
+                parent_chromosomes = random.sample(matching_pool.chromosomes, 2)
+                parent_chromosome_1, parent_chromosome_2 = parent_chromosomes[0], parent_chromosomes[1]
+
+                if len(parent_chromosome_1.genes) > 1 and len(parent_chromosome_2.genes) > 1:
+                    crossover_point = random.randint(1, min(len(parent_chromosome_1.genes), len(parent_chromosome_2.genes)) - 1)
+                    child_chromosome_1 = Chromosome()
+                    child_chromosome_2 = Chromosome()
+
+                    child_chromosome_1.genes = parent_chromosome_1.genes[:crossover_point] + parent_chromosome_2.genes[crossover_point:]
+                    child_chromosome_2.genes = parent_chromosome_2.genes[:crossover_point] + parent_chromosome_1.genes[crossover_point:]
+
+                    new_population.add_chromosome(child_chromosome_1)
+                    new_population.add_chromosome(child_chromosome_2)
+                else:
+                    new_population.add_chromosome(parent_chromosome_1)
+                    new_population.add_chromosome(parent_chromosome_2)
         return new_population
+
     
     @staticmethod
-    def __mutation(new_population: Population, mutation_rate: float, class_groups: List[ClassGroup], classrooms: List[Classroom], subjects: List[Subject], professors: List[Professor]) -> Population:
+    def __mutation(matching_pool: Population, mutation_rate: float, professors: List[Professor]) -> Population:
         """
         Mutate the genes of the new population with a random selection of the parameters
         """
-        for chromosome in new_population.chromosomes:
+        for chromosome in matching_pool.chromosomes:
             for gene in chromosome.genes:
                 if random.random() < mutation_rate:
-                    gene.generate_random_gene(class_groups, classrooms, subjects, professors)
-        return new_population
+                    professor_id = gene.professor.id
+                    for professor in professors:
+                        if professor.id == professor_id:
+                            professor_available_days_ids = professor.available_days_ids
+                            if professor_available_days_ids:
+                                professor_random_available_day_id = random.choice(professor_available_days_ids)
+                                professor_random_available_time_id = random.choice(professor.available_time_ids)
+                                professor.set_availability(professor_random_available_day_id, professor_random_available_time_id)
+        return matching_pool
     
     @staticmethod
-    def __replace_population(population: Population, new_population: Population) -> Population:
+    def __replace_population(population: Population, matching_pool: Population) -> Population:
         """
         Replace the population with the new population if the new population has better individuals
         """
-        population.order_population_by_fitness()
-        new_population.order_population_by_fitness(reverse=True)
-        for i in range(len(new_population.chromosomes)):
-            if new_population.chromosomes[i].elite_fitness > population.chromosomes[i].elite_fitness:
-                population.chromosomes[i] = new_population.chromosomes[i]
+        new_population = Population()
+
+        matching_pool.order_population_by_conflicts()
+        population.order_population_by_conflicts()
+
+        for i in range(len(population.chromosomes)):
+            if i < len(matching_pool.chromosomes):
+                new_population.add_chromosome(matching_pool.chromosomes[i])
+            else:
+                new_population.add_chromosome(population.chromosomes[i])
         return population
 
     def run(self) -> MetricsEvaluator:
@@ -109,10 +116,10 @@ class GeneticAlgorithm(Model):
             self.metrics_evaluator.start_iteration()
             if generation > 0:
                 matching_pool = self.__selection(self.population)
-                new_population = self.__crossover(matching_pool, self.crossover_rate)
-                new_population = self.__mutation(new_population, self.mutation_rate, self.class_groups, self.classrooms, self.subjects, self.professors)
-                self.population = self.__replace_population(self.population, new_population)
-            self.metrics_evaluator.finish_iteration(generation, self.population.best_chromosome, self.population.best_chromosome.avg_amount_of_conflicts, self.population.best_chromosome.elite_fitness)
+                matching_pool = self.__crossover(matching_pool, self.crossover_rate)
+                matching_pool = self.__mutation(matching_pool, self.mutation_rate, self.professors)
+                self.population = self.__replace_population(self.population, matching_pool)
+            self.metrics_evaluator.finish_iteration(generation, self.population.best_chromosome, self.population.best_chromosome.amount_of_conflicts, self.population.best_chromosome.elite_fitness)
             if self.population.best_chromosome.elite_fitness >= self.fitness_threshold:
                 break
         self.metrics_evaluator.finish_evaluation()

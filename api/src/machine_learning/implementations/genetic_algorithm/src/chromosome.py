@@ -16,24 +16,6 @@ class Chromosome:
 
     def add_gene(self, gene: Gene) -> None:
         self.genes.append(gene)
-
-    @property
-    def amount_of_conflicts_between_genes(self) -> int:
-        """
-        Returns the amount of conflicts between the genes in the chromosome; For each pair of genes, evaluates if the classroom and the professor have the same availability; Therefore evaluating if the genes are feasible or if they occupy the same timeslot in the timetable.
-        """
-        conflicts_between_genes = 0
-        # For each pair of genes
-        for i in range(len(self.genes)):
-            for j in range(i + 1, len(self.genes)):
-                # Evaluate if the classroom are the same and have the same availability
-                if self.genes[i].classroom == self.genes[j].classroom and self.genes[i].classroom.given_availability == self.genes[j].classroom.given_availability:
-                    conflicts_between_genes += 1
-                # Evaluate if the professor are the same and have the same availability
-                if self.genes[i].professor == self.genes[j].professor and self.genes[i].professor.given_availability == self.genes[j].professor.given_availability:
-                    conflicts_between_genes += 1
-        #print(f"Chromosome with total amount of {conflicts_between_genes} conflicts between genes")
-        return conflicts_between_genes
         
     @property
     def amount_of_conflicts(self) -> int:
@@ -41,9 +23,23 @@ class Chromosome:
         Returns the amount of conflicts in the chromosome; Evaluates the amount of internal conflicts in each gene and the amount of conflicts between the genes
         """
         conflicts = 0
+        professor_timeslots_usage = {}
+        classroom_timeslots_usage = {}
         for gene in self.genes:
-            conflicts += gene.amount_of_internal_conflicts
-        conflicts += self.amount_of_conflicts_between_genes
+            conflicts += gene.get_amount_of_internal_conflicts(is_valid=True, is_feasible=False) # Não checa assegura se a sala de aula comporta tem a mesma disponibilidade do professor
+            
+            professor_timeslots_usage_key = (gene.professor.id, gene.professor.given_availability.day_id, gene.professor.given_availability.time_id) # Checa se o professor possui timeslots duplicados em outros genes
+            if professor_timeslots_usage_key in professor_timeslots_usage:
+                conflicts += 1
+            else:
+                professor_timeslots_usage[professor_timeslots_usage_key] = 1
+
+            classroom_timeslots_usage_key = (gene.classroom.id, gene.classroom.given_availability.day_id, gene.classroom.given_availability.time_id) # Checa se a sala de aula possui timeslots duplicados em outros genes
+            if classroom_timeslots_usage_key in classroom_timeslots_usage:
+                conflicts += 1
+            else:
+                classroom_timeslots_usage[classroom_timeslots_usage_key] = 1
+
         #print(f"Chromosome with total amount of {conflicts} conflicts")
         return conflicts
     

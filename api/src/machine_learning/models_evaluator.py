@@ -19,6 +19,7 @@ class IterationEvaluationMetrics:
     elite_fitness: float|None
     time_elapsed: float
     
+
 @dataclass
 class EvaluationMetrics:
     """
@@ -26,7 +27,7 @@ class EvaluationMetrics:
     It tracks partial indicators about each iteration and the best indicators of the model;
     """
     iteration_history: List[IterationEvaluationMetrics]
-    best_iteration: IterationEvaluationMetrics
+    best_iteration: IterationEvaluationMetrics|None
     total_time_elapsed: float
 
     def __init__(self, main_metric_of_evaluation: str) -> None:
@@ -34,7 +35,7 @@ class EvaluationMetrics:
             raise ValueError("The main metric of evaluation must be 'conflicts' or 'elite_fitness'")
         self.main_metric_of_evaluation = main_metric_of_evaluation
         self.iteration_history = []
-        self.best_iteration = IterationEvaluationMetrics(0, None, 0, 0, 0)
+        self.best_iteration = None
 
     def __compare_conflicts(self, iteration_evaluation_metrics: IterationEvaluationMetrics) -> None:
         """
@@ -59,10 +60,13 @@ class EvaluationMetrics:
         """
         print(f"Iteration {iteration_evaluation_metrics.iteration} - Conflicts: {iteration_evaluation_metrics.avg_conflicts} - Elite Fitness: {iteration_evaluation_metrics.elite_fitness} - Time Elapsed: {iteration_evaluation_metrics.time_elapsed}")
         self.iteration_history.append(iteration_evaluation_metrics)
-        if self.main_metric_of_evaluation == "conflicts":
-            self.__compare_conflicts(iteration_evaluation_metrics)
-        elif self.main_metric_of_evaluation == "elite_fitness":
-            self.__compare_elite_fitness(iteration_evaluation_metrics)
+        if self.best_iteration is None:
+            self.best_iteration = iteration_evaluation_metrics
+        else:
+            if self.main_metric_of_evaluation == "conflicts":
+                self.__compare_conflicts(iteration_evaluation_metrics)
+            elif self.main_metric_of_evaluation == "elite_fitness":
+                self.__compare_elite_fitness(iteration_evaluation_metrics)
 
     def calculate_total_time_elapsed(self, start_time: float) -> None:
         """
@@ -108,7 +112,7 @@ class MetricsEvaluator:
         Save the evaluation metrics of the genetic algorithm model in a json file
         """
         print(f"Saving evaluation metrics of the model {self.model}")
-        with open(f"../../../data/{self.model}_evaluation_metrics_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.json", 'w') as file:
+        with open(f"./logs/{self.model}_evaluation_metrics_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.json", 'w') as file:
             json.dump(self.metrics, file, default=lambda x: x.__dict__)
         print(f"Metrics of the model saved")
 

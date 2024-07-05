@@ -52,6 +52,20 @@ class Classroom:
         self.available_time_ids = classroom_data["times"]
         
     @property
+    def random_available_time(self) -> int:
+        """
+        Returns a random available time for the professor
+        """
+        return random.choice(self.available_time_ids)
+    
+    @property
+    def random_available_day(self) -> int:
+        """
+        Returns a random available day for the professor
+        """
+        return random.choice(self.available_days_ids)
+
+    @property
     def availabilities(self) -> List[Availability]:
         """
         Returns a list of all possible availabilities for the professor
@@ -61,6 +75,12 @@ class Classroom:
             for time_id in self.available_time_ids:
                 availabilities.append(Availability(day_id, time_id))
         return availabilities
+    
+    def set_availability(self, day_id: int, time_id: int) -> None:
+        """
+        Sets the availability for the professor
+        """
+        self.given_availability = Availability(day_id, time_id)
     
     def set_random_availability(self) -> None:
         """
@@ -93,6 +113,20 @@ class Professor:
         self.taughtble_subjects_ids = professor_data["subjects"]
 
     @property
+    def random_available_time(self) -> int:
+        """
+        Returns a random available time for the professor
+        """
+        return random.choice(self.available_time_ids)
+    
+    @property
+    def random_available_day(self) -> int:
+        """
+        Returns a random available day for the professor
+        """
+        return random.choice(self.available_days_ids)
+
+    @property
     def availabilities(self) -> List[Availability]:
         """
         Returns a list of all possible availabilities for the professor
@@ -102,6 +136,12 @@ class Professor:
             for time_id in self.available_time_ids:
                 availabilities.append(Availability(day_id, time_id))
         return availabilities
+    
+    def set_availability(self, day_id: int, time_id: int) -> None:
+        """
+        Sets an availability for the professor
+        """
+        self.given_availability = Availability(day_id, time_id)
     
     def set_random_availability(self) -> None:
         """
