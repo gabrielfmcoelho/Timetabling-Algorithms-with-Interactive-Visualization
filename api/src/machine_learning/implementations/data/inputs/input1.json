@@ -37,5 +37,14 @@
         { "id": 3, "start": "10:00am", "end": "11:00am" },
         { "id": 4, "start": "11:00am", "end": "12:00pm" },
         { "id": 5, "start": "1:00pm", "end": "2:00pm" }
+    ],
+
+    "days": [
+        { "id": 1, "name": "Segunda-Feira"},
+        { "id": 2, "name": "Terça-Feira" },
+        { "id": 3, "name": "Quarta-Feira" },
+        { "id": 3, "name": "Quinta-Feira" },
+        { "id": 4, "name": "Sexta-Feira" }
     ]
+
 }

@@ -1,0 +1,47 @@
+name: Deploy to VPS
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: SSH into VPS and execute commands
+              uses: appleboy/ssh-action@master
+              with:
+                host: ${{ secrets.VPS_HOST }}
+                username: ${{ secrets.VPS_USER }}
+                password: ${{ secrets.VPS_PASSWORD }}
+
+                # Commands to execute on the VPS
+                script: |
+                    # try to git clone the repo
+                    cd services
+                    git clone https://github.com/gabrielfmcoelho/Timetabling-Implementation.git
+                    cd Timetabling-Implementation
+                    git checkout main
+                    # try to stop the running containers with make command that can fail
+                    if make service-stop; then
+                        echo "Service stopped successfully"
+                    else
+                        echo "Service not running"
+                    fi
+                    if make clean-env; then
+                        echo "Environment cleaned successfully"
+                    else
+                        echo "Environment not needed to be cleaned"
+                    fi
+                    if make service-init; then
+                        echo "Service initialized successfully"
+                    else
+                        echo "Service not initialized"
+                        exit 1
+                    fi
+                    exit 0

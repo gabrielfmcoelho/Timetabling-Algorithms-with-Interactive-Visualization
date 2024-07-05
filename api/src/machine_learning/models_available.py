@@ -1,17 +1,43 @@
-from src.machine_learning.model_definition import ModelCredentials, ModelDefinition
-from src.machine_learning.implementations.model_a.model import ModelA
+from machine_learning.model_definition import ModelDefinition
+from machine_learning.implementations.genetic_algorithm.model import GeneticAlgorithm
+from machine_learning.implementations.local_search_algorithm.model import LocalSearchAlgorithm
+from machine_learning.implementations.randomized.model import RandomizedSelectionAlgorithm
 
 
 # Models in stable version
-model_a_definition = ModelDefinition(
-    uid="local_search",
-    model=ModelA(),
-    credentials_params=ModelCredentials()
+LOCAL_SEARCH_ALGORITHM_DEFINITION = ModelDefinition(
+    uid="local-search-algorithm",
+    model=LocalSearchAlgorithm(),
+    default_parameters={
+        "max_iterations": 100
+    }
 )
+
+GENETIC_ALGORITHM_DEFINITION = ModelDefinition(
+    uid="genetic-algorithm",
+    model=GeneticAlgorithm(),
+    default_parameters={
+        "population_size": 200,
+        "mutation_rate": 0.4,
+        "crossover_rate": 0.6,
+        "generations": 500,
+        "fitness_threshold": 0.9,
+        "course_load_one_class_threshold": 36
+    }
+)
+
+RANDOMIZED_SELECTION_ALGORITHM_DEFINITION = ModelDefinition(
+    uid="randomized-selection-algorithm",
+    model=RandomizedSelectionAlgorithm(),
+    default_parameters={}
+)
+
 
 # Dictionary of models available
 MODELS_AVAILABLE = {
     "timetabling": {
-        model_a_definition.uid: model_a_definition
+        LOCAL_SEARCH_ALGORITHM_DEFINITION.uid: LOCAL_SEARCH_ALGORITHM_DEFINITION,
+        GENETIC_ALGORITHM_DEFINITION.uid: GENETIC_ALGORITHM_DEFINITION,
+        RANDOMIZED_SELECTION_ALGORITHM_DEFINITION.uid: RANDOMIZED_SELECTION_ALGORITHM_DEFINITION
     }
 }

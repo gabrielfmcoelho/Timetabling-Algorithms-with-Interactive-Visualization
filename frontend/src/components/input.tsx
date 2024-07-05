@@ -11,7 +11,7 @@ import {
 
 import { JsonEditor } from 'json-edit-react'
 
-import jsonData from '../../../local-search-algorithm/data/inputs/input1.json'
+import jsonData from '../../data/mock/input.json'
 import { ScrollArea } from "./ui/scroll-area"
 
 export function Input() {
