@@ -35,7 +35,7 @@ async def ocr_essay_image(
     logger.info(f"Route /service/ai/{model_id} called by user.")
     try:
         if env_mode == "prod":
-            response = ModelsInterface.run(model_id, request_data.content)
+            response = ModelsInterface.run(model_id, "timetabling", request_data.model_dump())
         else:
             response = {"timetable": "not implemented yet"}
         return {"data": response}
