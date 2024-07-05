@@ -97,7 +97,7 @@ class MetricsEvaluator:
         Start the timer of the iteration to evaluate the execution time of the genetic
         """
         self.iteration_start_time: float = time.time()
-        print(f"Starting iteration {len(self.metrics.iteration_history) + 1}")
+        print(f"Starting iteration {len(self.metrics.iteration_history)}")
 
     def finish_iteration(self, iteration: int, chromosome: Any, avg_conflicts: float, elite_fitness: float|None = None) -> None:
         """
