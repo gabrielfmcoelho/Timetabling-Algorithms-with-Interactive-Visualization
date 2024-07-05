@@ -8,21 +8,22 @@ from machine_learning.models_evaluator import MetricsEvaluator
 from machine_learning.model_definition import Model
 
 
-class GeneticAlgorithm:
-    def __init__(self, population_size: int, mutation_rate: float, crossover_rate: float, generations: int, fitness_threshold: float, course_load_one_class_threshold: int, class_groups: List[ClassGroup], classrooms: List[Classroom], subjects: List[Subject], professors: List[Professor]):
+class GeneticAlgorithm(Model):
+    def setup(self, data: dict, parameters: dict):
+        self.population_size = parameters.get("population_size", 200)
+        self.mutation_rate = parameters.get("mutation_rate", 0.4)
+        self.crossover_rate = parameters.get("crossover_rate", 0.6)
+        self.generations = parameters.get("generations", 500)
+        self.fitness_threshold = parameters.get("fitness_threshold", 0.9)
+        self.course_load_one_class_threshold = parameters.get("course_load_one_class_threshold", 36)
+        self.class_groups = data.get("classes", [])
+        self.classrooms = data.get("rooms", [])
+        self.subjects = data.get("subjects", [])
+        self.professors = data.get("teachers", [])
         self.metrics_evaluator = MetricsEvaluator("Genetic Algorithm", "conflicts")
         population = Population()
-        population.generate_population_from_data_safe_solution(population_size, class_groups, classrooms, subjects, professors)
+        population.generate_population_from_data_safe_solution(self.population_size, self.class_groups, self.classrooms, self.subjects, self.professors)
         self.population = population
-        self.mutation_rate = mutation_rate
-        self.crossover_rate = crossover_rate
-        self.generations = generations
-        self.fitness_threshold = fitness_threshold
-        self.course_load_one_class_threshold = course_load_one_class_threshold
-        self.class_groups = class_groups
-        self.classrooms = classrooms
-        self.subjects = subjects
-        self.professors = professors
 
     @staticmethod
     def __selection(population: Population) -> Population:
