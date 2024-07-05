@@ -1,6 +1,7 @@
 from machine_learning.implementations.genetic_algorithm.src.entities import ClassGroup, Classroom, Subject, Professor, Day, Time
 from machine_learning.implementations.genetic_algorithm.src.gene import Gene
 from machine_learning.implementations.genetic_algorithm.src.chromosome import Chromosome
+from machine_learning.implementations.genetic_algorithm.src.population import Population
 from machine_learning.models_evaluator import MetricsEvaluator
 from machine_learning.model_definition import Model
 
@@ -30,10 +31,9 @@ class RandomizedSelectionAlgorithm(Model):
     def run(self) -> MetricsEvaluator:
         self.metrics_evaluator.start_iteration()
         chromosome = Chromosome()
-        for _ in range(CLASSES_NEED_TO_BE_SCHEDULED):
-            gene = Gene()
-            gene.generate_random_gene(self.class_groups, self.classrooms, self.subjects, self.professors)
-            chromosome.add_gene(gene)
+        population = Population()
+        population.generate_population_from_data(1, self.class_groups, self.classrooms, self.subjects, self.professors)
+        chromosome = population.chromosomes[0]
         self.metrics_evaluator.finish_iteration(0, chromosome, chromosome.amount_of_conflicts, chromosome.elite_fitness)
         self.metrics_evaluator.finish_evaluation()
         return self.metrics_evaluator

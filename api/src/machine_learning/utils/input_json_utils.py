@@ -16,3 +16,14 @@ def load_data(file_path, dataclasses_relationships) -> dict:
                 timetabling_data[entity].append(entity_value)
             print(f"{len(timetabling_data[entity])} of {entity} loaded")
         return timetabling_data
+    
+
+def load_data_to_dict(file_path) -> dict:
+    """
+    Load data from a json file and return a dictionary with the data loaded as dictionaries
+    """
+    print(f"Loading data from {file_path}")
+    with open(file_path, 'r') as file:
+        data = json.load(file)
+        print(data)
+        return data
